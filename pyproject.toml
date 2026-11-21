@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "certified-stopping-simopt"
+version = "1.0.0"
+description = "Certified stopping for surrogate-based simulation optimization"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.24", "scipy>=1.10", "scikit-learn>=1.3", "pandas>=2.0", "matplotlib>=3.7"]
+
+[tool.setuptools]
+packages = ["ppc"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
