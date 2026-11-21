@@ -190,7 +190,7 @@ def e4(df, fig_dir):
     for j, k in enumerate(keys):
         meds = [(piv.loc[p][k] / piv.loc[p][ref]).median() for p in probs]
         cfg, m = k.split(":")
-        lab = METH_LABEL.get(m, m) + (" + guided labels" if cfg == "final+guided" else "")
+        lab = METH_LABEL.get(m, m) + (", surrogate first looks" if cfg == "final+guided" else "")
         ax.bar(np.arange(len(probs)) + (j - (len(keys) - 1) / 2) * width, meds, width, label=lab)
     ax.axhline(1.0, color="black", lw=1)
     ax.set_xticks(np.arange(len(probs)), [PROB_LABEL[p] for p in probs])
@@ -213,13 +213,15 @@ def e5(df, tab_dir):
         un = x[x.method == "uniform"]
         pp = x[x.method == "ppi_1s"]
         rows.append([SURR_LABEL[s], pct(mo.violated.mean()), pct(un.violated.mean()), pct(pp.violated.mean()),
-                     f"{un.bound_final.mean():.3f}", f"{mo.recall_search.mean():.2f}",
-                     f"{mo.recall_random.mean():.2f}"])
+                     f"{un.M_true.mean():.3f}", f"{un.bound_final.mean():.3f}",
+                     f"{mo.recall_search.mean():.2f}", f"{mo.recall_random.mean():.2f}"])
     write_table(os.path.join(tab_dir, "tab_shift.tex"),
                 ["Surrogate", r"Model only wrong (\%)", r"Uniform wrong (\%)", r"PPI-1s wrong (\%)",
-                 "Uniform bound", "Recall (search)", "Recall (random)"], rows,
+                 "Mean $M$", "Mean uniform bound", "Recall (search)", "Recall (random)"], rows,
                 r"Regime shift (E5): surrogate and search from the nominal regime, certificate in the "
-                r"disrupted regime.", "tab:shift", "lrrrrrr")
+                r"disrupted regime: share of runs in which each estimate fell below the true mass, mean true "
+                r"mass and mean final uniform bound, and recall of the remaining improvers.",
+                "tab:shift", "lrrrrrrr")
 
 
 def e1_mechanism(df, tab_dir):
@@ -239,10 +241,10 @@ def e1_mechanism(df, tab_dir):
                          pct((x.flags_unevaluated == 0).mean())])
     write_table(os.path.join(tab_dir, "tab_mechanism.tex"),
                 ["Problem", "Surrogate", "Recall $r$ (search)", "Recall (random)", "Flag mass $P$",
-                 r"False alarms $\phi$", r"Lift $\Lambda$ (median)", r"Exhausted (\%)"], rows,
+                 r"False alarms $\phi$", r"Lift $\Lambda_{\mathrm{act}}$ (median)", r"Exhausted (\%)"], rows,
                 r"Mechanism (E1): recall of the remaining improvers by the surrogate after search and by a "
                 r"surrogate fitted to a random design of the same size, flagged and false-alarm masses, lift of "
-                r"the active design on missed improvers, and share of runs in which no flagged policy was left "
+                r"the active part $\pi_{\mathrm{act}}$ of the PPC-1s design on missed improvers, and share of runs in which no flagged policy was left "
                 r"unsimulated (Theorem~\ref{thm:selection}, Corollary~\ref{cor:exhaust}).",
                 "tab:mechanism", "llrrrrrr")
 
