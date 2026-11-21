@@ -45,7 +45,7 @@ and figures.
 Each experiment is split into parts of 100 macro-replications; part *k* uses seed *k*.
 
 | Experiment | Question | Parts | Outputs | 
-|---|---|---|---|---|
+|---|---|---|---|
 | E1 | Is the surrogate's own estimate of the remaining improvement reliable? Does the search surrogate recall the policies that still beat the incumbent? | 5 | `tab_diagnosis`, `tab_mechanism`, `fig_selection` | 
 | E2 | Is the certified stopping rule valid? How does the bound shrink with the budget? | 5 | `tab_validity`, `fig_budget` |
 | E3 | Which ingredients make certification affordable (betting bound, label schedule)? | 2 | `tab_ablation` | 
