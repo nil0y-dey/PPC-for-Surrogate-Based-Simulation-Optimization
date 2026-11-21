@@ -25,36 +25,35 @@ guarantee hold whatever the surrogate did.
 **Google Colab (no installation).** Open the notebook with the badge above, choose
 **Runtime → Run all**, and allow access to Google Drive. Results are written to
 `MyDrive/certified_stopping/`. Completed parts are skipped on later runs, and interrupted parts resume
-with identical results. The full plan takes about 13 hours on a free Colab instance and can be spread
-over several sessions.
+with identical results. 
 
 **Locally.**
 
 ```bash
 pip install -r requirements.txt
-python -m pytest -q                                   # about 20 seconds
-python scripts/run_experiment.py --all                # every experiment
-python scripts/check_label_validity.py                # label validity table
+python -m pytest -q                                  
+python scripts/run_experiment.py --all                
+python scripts/check_label_validity.py                
 python scripts/make_figures.py --results results --paper paper
 ```
 
-The raw results used in the paper are in `results/`, so `make_figures.py` regenerates every table
-and figure without rerunning the experiments.
+The raw results used in the paper are in `results/`,  `make_figures.py` regenerates tables
+and figures.
 
 ## Experiments
 
 Each experiment is split into parts of 100 macro-replications; part *k* uses seed *k*.
 
-| Experiment | Question | Parts | Outputs | Colab time per part |
+| Experiment | Question | Parts | Outputs | 
 |---|---|---|---|---|
-| E1 | Is the surrogate's own estimate of the remaining improvement reliable? Does the search surrogate recall the policies that still beat the incumbent? | 5 | `tab_diagnosis`, `tab_mechanism`, `fig_selection` | ~28 min |
-| E2 | Is the certified stopping rule valid? How does the bound shrink with the budget? | 5 | `tab_validity`, `fig_budget` | ~41 min |
-| E3 | Which ingredients make certification affordable (betting bound, label schedule)? | 2 | `tab_ablation` | ~38 min |
-| E4 | Can surrogate-powered variants beat uniform auditing after a full search? | 2 | `fig_surrogate` | ~95 min |
-| E5 | Does the certificate hold after a supply-disruption regime shift? | 2 | `tab_shift` | ~8 min |
-| E6 | Is it valid with the simulator's real (skewed) outputs instead of normal noise? | 2 | `tab_realnoise` | ~55 min |
-| E7 | Can surrogate-powered variants help after an early-stopped search? | 2 | `tab_aboveres` | ~25 min |
-| Label check | Does each label meet its error bound with real outputs? | | `tab_labelvalidity` | ~3 min |
+| E1 | Is the surrogate's own estimate of the remaining improvement reliable? Does the search surrogate recall the policies that still beat the incumbent? | 5 | `tab_diagnosis`, `tab_mechanism`, `fig_selection` | 
+| E2 | Is the certified stopping rule valid? How does the bound shrink with the budget? | 5 | `tab_validity`, `fig_budget` |
+| E3 | Which ingredients make certification affordable (betting bound, label schedule)? | 2 | `tab_ablation` | 
+| E4 | Can surrogate-powered variants beat uniform auditing after a full search? | 2 | `fig_surrogate` | 
+| E5 | Does the certificate hold after a supply-disruption regime shift? | 2 | `tab_shift` | 
+| E6 | Is it valid with the simulator's real (skewed) outputs instead of normal noise? | 2 | `tab_realnoise` | 
+| E7 | Can surrogate-powered variants help after an early-stopped search? | 2 | `tab_aboveres` | 
+| Label check | Does each label meet its error bound with real outputs? | | `tab_labelvalidity` |
 
 ## Problems and data
 
@@ -69,9 +68,7 @@ Each experiment is split into parts of 100 macro-replications; part *k* uses see
 
 `data/inventory_nominal.npz` and `data/inventory_disrupted.npz` hold the ground-truth mean cost and
 standard deviation of every policy, from 2,000 replications each
-(`python scripts/build_inventory_tables.py`). The E6 banks are generated with the same seeds the first
-time they are needed and cached in `data/cache/` (on Colab, in Google Drive); they are not stored in
-the repository because of their size (48 MB each).
+(`python scripts/build_inventory_tables.py`). 
 
 ## Results files
 
